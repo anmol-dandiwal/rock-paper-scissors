@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<head>
+    <title>Rock Paper Scissors</title>
+</head>
+<body>
+    <script>
+        game(); 
+
+        function getRndInteger(min, max) {
+            return Math.floor(Math.random() * (max - min) ) + min;
+        }
+
+        function computerPlay(){
+            let comSelectionInt = getRndInteger(1, 4);
+            let comSelection;
+            switch(comSelectionInt){
+                case 1:
+                    comSelection = "rock";
+                    break;
+                case 2:
+                    comSelection = "paper";
+                    break;
+                case 3:
+                    comSelection = "scissors";
+                    break;
+            }
+            return comSelection; 
+        }
+        
+        function userPlay(){
+            let userSelection;
+            while(true){
+                userSelection = prompt("Rock, Paper, or Scissors?");
+                userSelection = userSelection.toLowerCase();
+                if (userSelection != "rock" && userSelection != "paper" && userSelection != "scissors"){
+                    continue; 
+                } else {
+                    break;
+                }
+            }
+            return userSelection;
+        }
+
+        function playRound(computerSelection, playerSelection){
+            if ((playerSelection == "rock" && computerSelection == "paper") ||
+                (playerSelection == "paper" && computerSelection == "scissors") ||
+                (playerSelection == "scissors" && computerSelection == "rock")){
+                    return("Computer wins!");
+            } else if ((playerSelection == "rock" && computerSelection == "scissors") ||
+                (playerSelection == "paper" && computerSelection == "rock") ||
+                (playerSelection == "scissors" && computerSelection == "paper")){
+                    return("You win!");
+            } else {
+                return("Tie!");
+            }
+        }
+
+        function game(){
+            let playerScore = 0;
+            let comScore = 0; 
+            let reult; 
+            for (let i = 0; i < 5; i++){
+                result = playRound(computerPlay(), userPlay());
+                console.log(result); 
+                if(result == "Computer wins!") comScore++; 
+                if(result == "You win!") playerScore++; 
+            }
+            if (playerScore > comScore) console.log("You win!");
+            if (comScore > playerScore) console.log("Computer wins!");
+            if (playerScore == comScore) console.log("Tie!");
+        }
+    </script>
+</body>
