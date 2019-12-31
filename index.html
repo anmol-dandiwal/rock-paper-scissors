@@ -1,73 +1,120 @@
 <!DOCTYPE html>
-<head>
-    <title>Rock Paper Scissors</title>
-</head>
-<body>
-    <script>
-        game(); 
+<html>
+    <head>
+        <title>Rock Paper Scissors</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1 id="result"></h1>
+        <ul>
+            <li><button id="rockBtn">Rock</button></li>
+            <li><button id="paperBtn">Paper</button></li>
+            <li><button id="scissorBtn">Scissors</button></li>
+        </ul>
+        <p id="playerScore">Your Score:</p>
+        <p id="comScore">Computer Score:</p>
+        <script>
+            let playerScore = 0;
+            let comScore = 0;  
+            const comSelectionLabel = document.createElement('p');
+            const usrSelectionLabel = document.createElement('p');
+            comSelectionLabel.style.position = "absolute";
+            usrSelectionLabel.style.position = "absolute";
 
-        function getRndInteger(min, max) {
-            return Math.floor(Math.random() * (max - min) ) + min;
-        }
-
-        function computerPlay(){
-            let comSelectionInt = getRndInteger(1, 4);
-            let comSelection;
-            switch(comSelectionInt){
-                case 1:
-                    comSelection = "rock";
-                    break;
-                case 2:
-                    comSelection = "paper";
-                    break;
-                case 3:
-                    comSelection = "scissors";
-                    break;
+            function getRndInteger(min, max) {
+                return Math.floor(Math.random() * (max - min) ) + min;
             }
-            return comSelection; 
-        }
-        
-        function userPlay(){
-            let userSelection;
-            while(true){
-                userSelection = prompt("Rock, Paper, or Scissors?");
-                userSelection = userSelection.toLowerCase();
-                if (userSelection != "rock" && userSelection != "paper" && userSelection != "scissors"){
-                    continue; 
-                } else {
-                    break;
+    
+            function computerPlay(){
+                let comSelectionInt = getRndInteger(1, 4);
+                let comSelection;
+                switch(comSelectionInt){
+                    case 1:
+                        comSelectionLabel.textContent = "Rock";
+                        comSelectionLabel.style.right = "25%";
+                        comSelectionLabel.style.top = "60%";
+                        comSelectionLabel.style.transform = "translate(-50%, 0)";
+                        document.querySelector("body").appendChild(comSelectionLabel);
+                        return "rock";
+                    case 2:
+                        comSelectionLabel.textContent = "Paper";
+                        comSelectionLabel.style.right = "25%";
+                        comSelectionLabel.style.top = "60%";
+                        comSelectionLabel.style.transform = "translate(-50%, 0)";
+                        document.querySelector("body").appendChild(comSelectionLabel);
+                        return "paper";
+                    case 3:
+                        comSelectionLabel.textContent = "Scissors";
+                        comSelectionLabel.style.right = "25%";
+                        comSelectionLabel.style.top = "60%";
+                            comSelectionLabel.style.transform = "translate(-50%, 0)";
+                        document.querySelector("body").appendChild(comSelectionLabel);
+                        return "scissors";
                 }
             }
-            return userSelection;
-        }
-
-        function playRound(computerSelection, playerSelection){
-            if ((playerSelection == "rock" && computerSelection == "paper") ||
-                (playerSelection == "paper" && computerSelection == "scissors") ||
-                (playerSelection == "scissors" && computerSelection == "rock")){
-                    return("Computer wins!");
-            } else if ((playerSelection == "rock" && computerSelection == "scissors") ||
-                (playerSelection == "paper" && computerSelection == "rock") ||
-                (playerSelection == "scissors" && computerSelection == "paper")){
-                    return("You win!");
-            } else {
-                return("Tie!");
+            
+            function userPlay(e){
+                switch(e.target.id){
+                    case "rockBtn": 
+                        usrSelectionLabel.textContent = "Rock";
+                        usrSelectionLabel.style.left = "25%";
+                        usrSelectionLabel.style.top = "60%";
+                        usrSelectionLabel.style.transform = "translate(50%, 0)";
+                        document.querySelector("body").appendChild(usrSelectionLabel);
+                        return "rock";
+                    case "paperBtn": 
+                        usrSelectionLabel.textContent = "Paper";
+                        usrSelectionLabel.style.left = "25%";
+                        usrSelectionLabel.style.top = "60%";
+                        usrSelectionLabel.style.transform = "translate(50%, 0)";
+                        document.querySelector("body").appendChild(usrSelectionLabel);
+                        return "paper";
+                    case "scissorBtn": 
+                        usrSelectionLabel.textContent = "Scissors";
+                        usrSelectionLabel.style.left = "25%";
+                        usrSelectionLabel.style.top = "60%";
+                        usrSelectionLabel.style.transform = "translate(50%, 0)";
+                        document.querySelector("body").appendChild(usrSelectionLabel);
+                        return "scissors";
+                }
             }
-        }
-
-        function game(){
-            let playerScore = 0;
-            let comScore = 0; 
-            let reult; 
-            for (let i = 0; i < 5; i++){
-                result = playRound(computerPlay(), userPlay());
-                console.log(result); 
-                if(result == "Computer wins!") comScore++; 
-                if(result == "You win!") playerScore++; 
+    
+            function playRound(computerSelection, playerSelection){
+                if ((playerSelection == "rock" && computerSelection == "paper") ||
+                    (playerSelection == "paper" && computerSelection == "scissors") ||
+                    (playerSelection == "scissors" && computerSelection == "rock")){
+                        return("Computer wins!");
+                } else if ((playerSelection == "rock" && computerSelection == "scissors") ||
+                    (playerSelection == "paper" && computerSelection == "rock") ||
+                    (playerSelection == "scissors" && computerSelection == "paper")){
+                        return("You win!");
+                } else {
+                    return("Tie!");
+                }
             }
-            if (playerScore > comScore) console.log("You win!");
-            if (comScore > playerScore) console.log("Computer wins!");
-            if (playerScore == comScore) console.log("Tie!");
-        }
-    </script>
-</body>
+    
+            function game(e){
+                switch(playRound(computerPlay(), userPlay(e))){
+                    case "Computer wins!": 
+                        comScore++;
+                        document.getElementById("comScore").textContent = "Computer Score: " + comScore; 
+                        break;
+                    case "You win!": 
+                        playerScore++;
+                        document.getElementById("playerScore").textContent = "Your Score: " + playerScore;
+                        break;
+                    default:
+                        break;
+                }   
+                if (playerScore == 5){
+                    document.getElementById("result").textContent = "You Win!";
+                } else if (comScore == 5){
+                    document.getElementById("result").textContent = "Computer Wins!";
+                } 
+            }
+            
+            const buttons = Array.from(document.querySelectorAll('button'));
+            buttons.forEach(btn => addEventListener('click', game));
+        </script>
+    </body>
+</html>
